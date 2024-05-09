@@ -6,6 +6,6 @@ place: String,
 price: Number,
 });
 
-const experience = mongoose.model("Experience", experienceSchema);
+const Experience = mongoose.model("Experience", experienceSchema);
 
-export default experience;
+export default Experience;
