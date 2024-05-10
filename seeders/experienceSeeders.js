@@ -1,6 +1,6 @@
 import Experience from "../models/experienceModel.js";
  
-async function ExperienceSeeders(){
+export default async function ExperienceSeeders(){
     await Experience.create({
         name: "Hiking",
         place: "Mount Everest",

@@ -1,6 +1,6 @@
 import User from "../models/userModel.js";
 
-async function userSeeders() {
+export default async function userSeeders() {
   await User.create({
     name: "John",
     surname: "Doe",
