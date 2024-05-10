@@ -1,10 +1,17 @@
 import express from "express";
-import mongoose from "mongoose";
+import userRoutes from "./routes/userRoutes.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
+import experienceRoutes from "./routes/experienceRoutes.js";
+
 const app = express();
 
-mongoose.connect("mongodb://localhost:27017/trekangleDB");
 
 app.use(express.json());
+
+app.use("/", userRoutes);
+app.use("/", bookingRoutes);
+app.use("/", experienceRoutes);
+
 app.listen(3000, () => {
   console.log("El servidor esta corriendo en el puerto 3000");
 });

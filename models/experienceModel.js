@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "../config/mongoose.config.js";
 
 const experienceSchema = mongoose.Schema({
 name: String,
