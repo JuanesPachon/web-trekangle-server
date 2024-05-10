@@ -1,6 +1,6 @@
-import Booking from "../models/bookingModel";
+import Booking from "../models/bookingModel.js";
 import userSeeders from "./userSeeders.js";
-import ExperienceSeeders from "./ExperienceSeeders.js";
+import experienceSeeders from "./experienceSeeders.js";
 async function bookingSeeders() {
     await Booking.create({
         
