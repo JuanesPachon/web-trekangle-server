@@ -4,7 +4,7 @@ const bookingSchema = mongoose.Schema({
     name: String,
     place: String,
     price: Number,
-    userId: [
+    user: [
         {
             type: mongoose.Types.ObjectId,
             ref: "User",
@@ -13,7 +13,7 @@ const bookingSchema = mongoose.Schema({
     experience:  [
         {
             type: mongoose.Types.ObjectId,
-            ref: "experience",
+            ref: "Experience",
         }
     ]
 });
