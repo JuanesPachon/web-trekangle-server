@@ -4,7 +4,7 @@
 //Eliminar exp
 //Mostrar lista de exp
 
-import Experience from "../models/experienceModel";
+import Experience from "../models/experienceModel.js";
 
 async function listExperience (req, res) {
     try{
