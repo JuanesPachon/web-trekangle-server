@@ -9,7 +9,7 @@ import Booking from "../models/bookingModel.js";
 async function listBooking(req, res) {
 
     try {
-        const bookingList = Booking.find().populate("userId");
+        const bookingList = Booking.find().populate("userId").populate("experience");
         res.json(bookingList)
     } catch (error) {
         res.status(500).json("The Server had an error");
