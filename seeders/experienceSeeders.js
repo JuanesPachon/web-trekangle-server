@@ -27,3 +27,5 @@ async function ExperienceSeeders(){
         price: "800"
     })
 };
+
+ExperienceSeeders();
