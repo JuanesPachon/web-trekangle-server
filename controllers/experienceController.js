@@ -27,9 +27,13 @@ async function findExperience (req, res) {
 
 async function createExperience (req, res) {
     try{
-        const experienceid = req.params.id;
-        const foundexperience = await Experience.findById(experienceid);
-        res.json(foundexperience);
+        const newExperience = await Experience.create({
+            name: req.body.name,
+            place: req.body.place,
+            price: req.body.price,
+            description: req.body.description
+        });
+        res.json(newExperience);
     } catch (error){
         res.status(500).json("The server had an error");
     }

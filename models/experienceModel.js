@@ -12,6 +12,10 @@ const experienceSchema = mongoose.Schema({
   price: {
     type: Number,
     required: true
+  },
+  description:{
+    type: String,
+    required: true,
   }
 });
 
