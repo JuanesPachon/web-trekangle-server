@@ -30,7 +30,6 @@ async function createBooking(req, res) {
     try {
         const newBooking = await Booking.create({
             name: req.body.name,
-            place: req.body.place,
             price: req.body.price,
         });
         res.json(newBooking);
