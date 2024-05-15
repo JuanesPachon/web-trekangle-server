@@ -3,6 +3,9 @@ import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import experienceRoutes from "./routes/experienceRoutes.js";
+import "dotenv/config";
+
+const port = process.env.PORT
 
 const app = express();
 app.use(cors());
@@ -13,6 +16,6 @@ app.use("/", userRoutes);
 app.use("/", bookingRoutes);
 app.use("/", experienceRoutes);
 
-app.listen(3000, () => {
-  console.log("El servidor esta corriendo en el puerto 3000");
+app.listen(port, () => {
+  console.log(`El servidor esta corriendo en el puerto ${port}`);
 });

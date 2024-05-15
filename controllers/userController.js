@@ -1,5 +1,8 @@
 
 import User from "../models/userModel.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 
 async function listUser(req, res) {
   try {
@@ -60,11 +63,35 @@ async function deleteUser(req, res) {
   }
 }
 
+async function loginUser(req, res) {
+  try {
+    const user = await User.findOne({email: req.body.email});
+    if (user !== null) {
+      const validHash = await bcrypt.compare(req.body.password, user.password);
+      if (validHash) {
+        const tokenPayLoad = {
+          sub: user.id,
+          iat: Date.now(),
+        }
+        const token = jwt.sign(tokenPayLoad, process.env.JWT_KEY);
+        res.json({token: token})
+      } else {
+        res.json("invalid credentials")
+      }
+    } else {
+      res.json("invalid credentials")
+    }
+  } catch (error) {
+    res.status(500).json("The server had an error");
+  }
+}
+
 export default {
     listUser,
     findUser,
     createUser,
     editUser,
     deleteUser,
+    loginUser
 }
 
