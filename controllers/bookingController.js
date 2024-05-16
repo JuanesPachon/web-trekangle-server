@@ -13,7 +13,7 @@ async function listBooking(req, res) {
 
         const {id} = await User.findById(req.auth.sub);
 
-        const bookingList = await Booking.find().populate("user").populate("experience");
+        const bookingList = await Booking.find({user: id}).populate("user").populate("experience");
         res.json(bookingList)
     } catch (error) {
         res.status(500).json("The Server had an error");
@@ -24,9 +24,9 @@ async function findBooking(req, res) {
     try {
 
         const {id} = await User.findById(req.auth.sub);
-        const foundUser = await Booking.findByid(req.params.id);
+        const foundBooking = await Booking.findByid(req.params.id);
 
-        if(id === foundBooking.user[0].yoString()) {
+        if(id === foundBooking.user[0].toString()) {
             res.json(foundBooking);
         } else {
             res.json("This es not your booking, chech again");
