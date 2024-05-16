@@ -39,16 +39,22 @@ async function createUser(req, res) {
 
 async function editUser(req, res) {
   try {
+    const {id} = await User.findById(req.auth.sub);
     const foundUser = await User.findById(req.params.id);
 
-    foundUser.name = req.body.name ?? foundUser.name;
-    foundUser.surname = req.body.surname ?? foundUser.surname;
-    foundUser.email = req.body.email ?? foundUser.email;
-    foundUser.password = req.body.password ?? foundUser.password;
+    if(id === foundUser.id) {
+      foundUser.name = req.body.name ?? foundUser.name;
+      foundUser.surname = req.body.surname ?? foundUser.surname;
+      foundUser.email = req.body.email ?? foundUser.email;
+      foundUser.password = req.body.password ?? foundUser.password;
 
     await foundUser.save();
 
     res.json(foundUser);
+    } else {
+      res.json("You cannot edit this user, check again")
+    }
+    
   } catch (error) {
     res.status(500).json("The server had an error");
   }
@@ -56,8 +62,16 @@ async function editUser(req, res) {
 
 async function deleteUser(req, res) {
   try {
-    const foundUser = await User.findByIdAndDelete(req.params.id);
-    res.json("The user was deleted");
+    const {id} = await User.findById(req.auth.sub)
+    const foundUser = await User.findById(req.params.id)
+    
+    if (id === foundUser.id) {
+      const deleteUser = await User.findByIdAndDelete(req.params.id);
+      res.json("The user was deleted");
+    } else {
+      res.json("You cannot delete this user, check again")
+    }
+
   } catch (error) {
     res.status(500).json("The server had an error");
   }
