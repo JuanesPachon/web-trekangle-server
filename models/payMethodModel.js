@@ -5,6 +5,6 @@ const Schema = mongoose.Schema({
 
 });
 
-const payMethod = mongoose.model("payMethod", userSchema);
+const payMethod = mongoose.model("PayMethod", userSchema);
 
 export default payMethod;

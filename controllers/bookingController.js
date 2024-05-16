@@ -1,9 +1,3 @@
-//Crear reservas
-//Editar reserva
-//Eliminar reservsa
-//Mostrar lista de reserva
-//Encontrar reserva
-
 import Booking from "../models/bookingModel.js";
 import User from "../models/userModel.js";
 
