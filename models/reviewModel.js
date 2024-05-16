@@ -13,7 +13,7 @@ const reviewSchema = mongoose.schema({
             ref: "Experience",
         }
     ],
-    Comment: {type: String},
+    comment: {type: String},
     score: {type: Number}
 });
 
