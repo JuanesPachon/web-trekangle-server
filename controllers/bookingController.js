@@ -29,7 +29,7 @@ async function findBooking(req, res) {
         if(id === foundBooking.user[0].toString()) {
             res.json(foundBooking);
         } else {
-            res.json("This es not your booking, chech again");
+            res.json("This is not your booking, check again");
         }
         
     } catch (error) {
@@ -40,11 +40,20 @@ async function findBooking(req, res) {
 
 async function createBooking(req, res) {
     try {
+
+        const {id} = await User.findById(req.auth.sub);
+        const userId = req.body.user
+
+        if (id === userId) {
         const newBooking = await Booking.create({
             name: req.body.name,
+            place: req.body.place,
             price: req.body.price,
+            user: req.body.user,
+            experience: req.body.experience
         });
         res.json(newBooking);
+    }
     } catch (error) {
         res.status(500).json("The server had an error");
     }
@@ -52,15 +61,20 @@ async function createBooking(req, res) {
 
 async function editBooking(req, res) {
     try {
-        const foundBooking = await User.findByid(req.params.id);
+        const {id} = await User.findById(req.auth.sub);
+        const booking = await User.findByid(req.params.id);
 
-        foundBooking.name = req.body.name || req.body.name;
-        foundBooking.place = req.body.place || req.body.place;
-        foundBooking.price = req.body.price || req.body.price;
+        if (id === booking.user[0].toString()) {
+            const foundBooking = await User.findById(req,params.id);
 
-        await foundBooking.save();
+            foundBooking.name = req.body.name || req.body.name;
+            foundBooking.place = req.body.place || req.body.place;
+            foundBooking.price = req.body.price || req.body.price;
 
-        res.json(foundBooking);
+            await foundBooking.save();
+
+            res.json(foundBooking);
+        }
     } catch (error) {
         res.status(500).json("The server had an error");
     }
@@ -68,8 +82,13 @@ async function editBooking(req, res) {
 
 async function deleteBooking(req, res) {
     try {
-        const foundBooking = await Booking.findByIdAndDelete(req.params.id);
-        res.json("The server was deleted");
+        const {id} = await User.findById(req.auth.sub)
+        const booking = await Booking.findById(req.params.id);
+
+        if (id === booking.user[0].toString()) {
+            const deleteBooking = await Booking.findByIdAndDelete(req.params.id);
+            res.json("The booking was deleted");
+        }
     } catch(error) {
         res.status(500).json("The server had an error");
     }
