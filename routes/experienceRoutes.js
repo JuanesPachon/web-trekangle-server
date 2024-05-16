@@ -12,3 +12,4 @@ router.patch("/experiences/:id", expressjwt({algorithms: ["HS256"], secret: proc
 router.delete("experiences/:id", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),experienceController.deleteExperience); // eliminar
 
 export default router;
+

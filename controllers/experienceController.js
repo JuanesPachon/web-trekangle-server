@@ -25,7 +25,7 @@ async function findExperience (req, res) {
     }
 }
 
-async function createExperience (req, res) {
+async function createExperience (req, res) { // 1 
     try{
         const newExperience = await Experience.create({
             name: req.body.name,
