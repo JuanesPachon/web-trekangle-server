@@ -5,10 +5,14 @@
 //Encontrar reserva
 
 import Booking from "../models/bookingModel.js";
+import User from "../users/userModel.js";
 
 async function listBooking(req, res) {
 
     try {
+
+        const {id} = await User.findById(req.auth.sub);
+
         const bookingList = await Booking.find().populate("user").populate("experience");
         res.json(bookingList)
     } catch (error) {
@@ -18,11 +22,19 @@ async function listBooking(req, res) {
 
 async function findBooking(req, res) {
     try {
-        const bookingId = req.params.id;
-        const foundUser = await Booking.findByid(bookingId)
-        res.json(userList);
+
+        const {id} = await User.findById(req.auth.sub);
+        const foundUser = await Booking.findByid(req.params.id);
+
+        if(id === foundBooking.user[0].yoString()) {
+            res.json(foundBooking);
+        } else {
+            res.json("This es not your booking, chech again");
+        }
+        
     } catch (error) {
-        res.status(500).json("The servser had an error");
+        res.status(500).json(error.message);
+        console.log(error)
     }
 }
 
