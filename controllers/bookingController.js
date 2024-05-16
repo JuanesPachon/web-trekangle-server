@@ -5,7 +5,7 @@
 //Encontrar reserva
 
 import Booking from "../models/bookingModel.js";
-import User from "../users/userModel.js";
+import User from "../models/userModel.js";
 
 async function listBooking(req, res) {
 
@@ -24,7 +24,7 @@ async function findBooking(req, res) {
     try {
 
         const {id} = await User.findById(req.auth.sub);
-        const foundBooking = await Booking.findByid(req.params.id);
+        const foundBooking = await Booking.findById(req.params.id);
 
         if(id === foundBooking.user[0].toString()) {
             res.json(foundBooking);
