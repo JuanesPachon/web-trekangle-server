@@ -5,10 +5,10 @@ import "dotenv/config";
 
 const router = express.Router();
 
-router.get("/payMethod", payMethodController.listpayMethod);
-router.post("/payMethod",  payMethodController.createpayMethod);
-router.get("/payMethod/:id",  payMethodController.findpayMethod);
-router.patch("/payMethod/:id",  payMethodController.editpayMethod);
-router.delete("/payMethod/:id",  payMethodController.deletepayMethod);
+router.get("/payMethod", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),payMethodController.listpayMethod);
+router.post("/payMethod", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),payMethodController.createpayMethod);
+router.get("/payMethod/:id", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),payMethodController.findpayMethod);
+router.patch("/payMethod/:id", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),payMethodController.editpayMethod);
+router.delete("/payMethod/:id", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),payMethodController.deletepayMethod);
 
 export default router;

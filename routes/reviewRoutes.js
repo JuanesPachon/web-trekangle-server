@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.get("/reviews", reviewController.listReview);
 router.get("/revies/:id", reviewController.findReview);
-router.post("/reviews", reviewController.createReview);
-router.patch("/reviews/:id", reviewController.editReview);
-router.delete("/reviews/:id", reviewController.deleteReview);
+router.post("/reviews", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),reviewController.createReview);
+router.patch("/reviews/:id", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),reviewController.editReview);
+router.delete("/reviews/:id", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),reviewController.deleteReview);
 
 export default router;
