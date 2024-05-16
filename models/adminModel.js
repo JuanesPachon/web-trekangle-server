@@ -13,6 +13,6 @@ adminSchema.pre("save", async function () {
   return;
 });
 
-const Admin = mongoose.model("User", userSchema);
+const Admin = mongoose.model("Admin", adminSchema);
 
 export default Admin;
