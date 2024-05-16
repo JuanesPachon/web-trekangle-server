@@ -1,9 +1,9 @@
 import mongoose from "../config/mongoose.config.js";
 
 const bookingSchema = mongoose.Schema({
-    name: {type: String, required: true},
-    place: {type: String, required: true},
-    price: {type: Number, required: true},
+    name: {type: String},
+    place: {type: String},
+    price: {type: Number},
     user: [
         {
             type: mongoose.Types.ObjectId,

@@ -2,20 +2,16 @@ import mongoose from "../config/mongoose.config.js";
 
 const experienceSchema = mongoose.Schema({
   name: {
-    type: String,
-    required: true
+    type: String
   },
   place: {
-    type: String,
-    required: true
+    type: String
   },
   price: {
-    type: Number,
-    required: true
+    type: Number
   },
   description:{
-    type: String,
-    required: true,
+    type: String
   }
 });
 
