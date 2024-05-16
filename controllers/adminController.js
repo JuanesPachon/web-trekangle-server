@@ -39,7 +39,7 @@ async function editAdmin(req, res) {
   }
 }
 
-async function deleteUser(req, res) {
+async function deleteAdmin(req, res) {
   try {
     const { id } = await Admin.findById(req.auth.sub);
     const foundAdmin = await Admin.findById(req.params.id);
@@ -76,4 +76,11 @@ async function loginAdmin(req, res) {
   } catch (error) {
     res.status(500).json("The server had an error");
   }
+}
+
+export default {
+  editAdmin,
+  createAdmin,
+  deleteAdmin,
+  loginAdmin,
 }
