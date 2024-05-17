@@ -1,4 +1,6 @@
 import mongoose from "../config/mongoose.config.js";
+import payMethod from "./payMethodModel.js";
+
 
 const bookingSchema = mongoose.Schema({
     name: {type: String},
@@ -14,6 +16,12 @@ const bookingSchema = mongoose.Schema({
         {
             type: mongoose.Types.ObjectId,
             ref: "Experience",
+        }
+    ],
+    payMethod: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: "PayMethod",
         }
     ]
 });
