@@ -37,7 +37,7 @@ async function findReview(req, res) {
 
 async function editReview(req, res) {
   try {
-    const {_id} = await User.findById(req.auth.sub);
+    const {id} = await User.findById(req.auth.sub);
     const reviewUserId = await Review.findById(req.params.user);
 
     if( id === reviewUserId[0].toString()){
