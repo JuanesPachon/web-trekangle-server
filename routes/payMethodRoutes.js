@@ -1,4 +1,4 @@
-import payMethodController from "../controllers/payMethodController";
+import payMethodController from "../controllers/payMethodController.js";
 import express from "express";
 import { expressjwt } from "express-jwt";
 import "dotenv/config";

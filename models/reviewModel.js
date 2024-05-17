@@ -1,4 +1,4 @@
-import mongoose from "../config/mongoose.config";
+import mongoose from "../config/mongoose.config.js";
 
 const reviewSchema = mongoose.schema({
     user: [
