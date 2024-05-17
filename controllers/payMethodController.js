@@ -5,8 +5,8 @@ import User from "../models/userModel.js";
 async function listpayMethod(req, res) {
 
     try {
-        const bookingList = await Booking.find();
-        res.json(bookingList)
+        const payMethodList = await payMethod.find();
+        res.json(payMethodList)
     } catch (error) {
         res.status(500).json("The Server had an error");
     }
@@ -15,16 +15,9 @@ async function listpayMethod(req, res) {
 
 async function findpayMethod(req, res) {
     try {
-
-        const {id: userId} = await User.findById(req.auth.sub);
-        const {id: adminId} = await Admin.findById(req.auth.sub);
         const foundpayMethod = await payMethod.findById(req.params.id);
+        res.json(foundpayMethod);
 
-        if(userId === foundpayMethod.user[0].toString() || adminId === foundpayMethod.user[0].toString()) {
-          res.json(foundpayMethod);
-        } else {
-            res.json("This is not your pay method, check again");
-        }
     } catch (error) {
         res.status(500).json(error.message);
         console.log(error)

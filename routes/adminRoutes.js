@@ -6,8 +6,8 @@ import "dotenv/config";
 const router = express.Router();
 
 router.post("/admin", adminController.createAdmin);
+router.patch("/admin/:id", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),adminController.editAdmin);
 router.delete("/admin/:id", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),adminController.deleteAdmin);
-router.post("/admin/login", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),adminController.loginAdmin);
-router.patch("/users/:id",adminController.editAdmin);
+router.post("/admin/login", adminController.loginAdmin);
 
 export default router

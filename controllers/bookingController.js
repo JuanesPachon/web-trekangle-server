@@ -5,8 +5,11 @@ import Admin from "../models/adminModel.js";
 async function listBooking(req, res) {
   try {
     const userId = req.auth.sub;
-    const { id: idUser } = await User.findById(userId);
-    const { id: idAdmin } = await Admin.findById(userId);
+    const user = await User.findById(userId);
+    const idUser = user ? user.id : null;
+
+    const admin = await Admin.findById(userId);
+    const idAdmin = admin ? admin.id : null;
 
     if (idUser !== null) {
       const bookingList = await Booking.find({ user: idUser })
@@ -27,13 +30,19 @@ async function listBooking(req, res) {
 
 async function findBooking(req, res) {
   try {
-    const { id } = await User.findById(req.auth.sub);
+    const userId = req.auth.sub;
+    const user = await User.findById(userId);
+    const idUser = user ? user.id : null;
     const foundBooking = await Booking.findById(req.params.id);
 
-    if (id === foundBooking.user[0].toString()) {
-      res.json(foundBooking);
+    if (idUser !== null) {
+      if (idUser === foundBooking.user[0].toString()) {
+        res.json(foundBooking);
+      } else {
+        res.json("This is not your booking, check again");
+      }
     } else {
-      res.json("This is not your booking, check again");
+      res.json("That booking doesn't exist, check again");
     }
   } catch (error) {
     res.status(500).json(error.message);
@@ -45,16 +54,23 @@ async function createBooking(req, res) {
   try {
     const userId = req.auth.sub;
     const { id: idUser } = await User.findById(userId);
+    const userBookingId = req.body.user
 
     if (idUser !== null) {
-      const newBooking = await Booking.create({
-        name: req.body.name,
-        place: req.body.place,
-        price: req.body.price,
-        user: userId,
-        experience: req.body.experience,
-      });
-      res.json(newBooking);
+      if (idUser === userBookingId){
+        const newBooking = await Booking.create({
+          name: req.body.name,
+          place: req.body.place,
+          price: req.body.price,
+          user: userId,
+          experience: req.body.experience,
+        });
+        res.json(newBooking);
+      } else {
+        res.json("You're not owner of the booking")
+      }
+    } else {
+      res.json("You're user is not valid")
     }
   } catch (error) {
     res.status(500).json("The server had an error");
@@ -64,11 +80,13 @@ async function createBooking(req, res) {
 async function editBooking(req, res) {
   try {
     const userId = req.auth.sub;
-    const { id: idUser } = await User.findById(userId);
-    const { id: idAdmin } = await Admin.findById(userId);
+    const user = await User.findById(userId);
+    const idUser = user ? user.id : null;
+    const admin = await Admin.findById(userId);
+    const idAdmin = admin ? admin.id : null;
 
     if (idUser !== null) {
-      const foundBooking = await User.findById(req, params.id);
+      const foundBooking = await Booking.findById(req.params.id);
 
       if (foundBooking.user[0].toString() === idUser) {
         foundBooking.name = req.body.name || req.body.name;
@@ -78,6 +96,8 @@ async function editBooking(req, res) {
         await foundBooking.save();
 
         res.json(foundBooking);
+      } else {
+        res.json("This is not your booking, check again");
       }
     }
     if (idAdmin !== null) {
@@ -99,14 +119,18 @@ async function editBooking(req, res) {
 async function deleteBooking(req, res) {
   try {
     const userId = req.auth.sub;
-    const { id: idUser } = await User.findById(userId);
-    const { id: idAdmin } = await Admin.findById(userId);
+    const user = await User.findById(userId);
+    const idUser = user ? user.id : null;
+    const admin = await Admin.findById(userId);
+    const idAdmin = admin ? admin.id : null;
 
     if (idUser !== null) {
       const FoundBooking = await Booking.findById(req.params.id);
-      if (FoundBookingBooking.user[0].toString() === idUser) {
+      if (FoundBooking.user[0].toString() === idUser) {
         const deleteBooking = await Booking.findByIdAndDelete(req.params.id);
         res.json("The booking was deleted");
+      } else {
+        res.json("The booking is not yours, check again");
       }
     }
     if (idAdmin !== null) {
@@ -114,7 +138,7 @@ async function deleteBooking(req, res) {
       res.json("The booking was deleted");
     }
   } catch (error) {
-    res.status(500).json("The server had an error");
+    res.status(500).json(console.log(error));
   }
 }
 
