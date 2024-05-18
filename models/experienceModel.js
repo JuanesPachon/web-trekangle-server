@@ -4,7 +4,8 @@ const experienceSchema = mongoose.Schema({
   name: {type: String},
   place: {type: String},
   price: {type: Number},
-  description:{type: String}
+  description:{type: String},
+  images:[String]
 });
 
 const Experience = mongoose.model("Experience", experienceSchema);

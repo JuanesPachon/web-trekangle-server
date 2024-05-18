@@ -1,6 +1,6 @@
 import mongoose from "../config/mongoose.config.js";
 
-const reviewSchema = mongoose.schema({
+const reviewSchema = mongoose.Schema({
     user: [
         {
             type: mongoose.Types.ObjectId,

@@ -57,7 +57,7 @@ async function editExperience (req, res){
 
 async function deleteExperience (req, res){
     try{
-        const foundexperience = await Experience.findByIdandDelete(req.params.id);
+        const foundexperience = await Experience.findByIdAndDelete(req.params.id);
         res.json("the user was deleted");
 
     } catch (error){
