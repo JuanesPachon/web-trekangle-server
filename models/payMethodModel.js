@@ -1,10 +1,10 @@
 import mongoose from "../config/mongoose.config.js";
 
-const Schema = mongoose.Schema({
-    name: {type: String, required: True},
+const payMethodSchema = mongoose.Schema({
+    name: {type: String, required: true},
 
 });
 
-const payMethod = mongoose.model("PayMethod", userSchema);
+const payMethod = mongoose.model("PayMethod", payMethodSchema);
 
 export default payMethod;
