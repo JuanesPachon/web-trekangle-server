@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema({
   surname: {type: String},
   email: {type: String},
   password: {type: String},
+  profileImage: { type: String },
 });
 
 userSchema.pre('save', async function() {
