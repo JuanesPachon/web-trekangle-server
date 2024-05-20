@@ -31,7 +31,8 @@ async function createExperience (req, res) { // 1
             name: req.body.name,
             place: req.body.place,
             price: req.body.price,
-            description: req.body.description
+            description: req.body.description,
+            images: req.file.filename
         });
         res.json(newExperience);
     } catch (error){
@@ -46,6 +47,7 @@ async function editExperience (req, res){
         foundexperience.name = req.body.name ?? foundexperience.name;
         foundexperience.place = req.body.place ?? foundexperience.place;
         foundexperience.price = req.body.price ?? foundexperience.price;
+        foundexperience.images = req.files.filename ?? foundexperience.images;
 
         await foundexperience.save();
         res.json(foundexperience);

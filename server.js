@@ -7,13 +7,20 @@ import adminRoutes from "./routes/adminRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import payMethodRoutes from "./routes/payMethodRoutes.js";
 import "dotenv/config";
+import path from "path";
+import fs from "fs";
 
 const port = process.env.PORT
 
 const app = express();
-app.use(cors());
 
+app.use(cors());
 app.use(express.json());
+
+const uploadDir = path.join(import.meta.dirname, 'public/uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 app.use("/", userRoutes);
 app.use("/", bookingRoutes);

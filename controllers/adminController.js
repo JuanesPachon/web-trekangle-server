@@ -10,6 +10,7 @@ async function createAdmin(req, res) {
       surname: req.body.surname,
       email: req.body.email,
       password: req.body.password,
+      profileImage: req.file.filename
     });
     res.json(newAdmin);
   } catch (error) {
@@ -27,6 +28,7 @@ async function editAdmin(req, res) {
       foundAdmin.surname = req.body.surname ?? foundAdmin.surname;
       foundAdmin.email = req.body.email ?? foundAdmin.email;
       foundAdmin.password = req.body.password ?? foundAdmin.password;
+      foundAdmin.profileImage = req.file.filename ?? foundAdmin.profileImage;
 
       await foundAdmin.save();
 

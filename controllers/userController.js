@@ -30,6 +30,7 @@ async function createUser(req, res) {
       surname: req.body.surname,
       email: req.body.email,
       password: req.body.password,
+      profileImage: req.file.filename
     });
     res.json(newUser);
   } catch (error) {
@@ -47,6 +48,7 @@ async function editUser(req, res) {
       foundUser.surname = req.body.surname ?? foundUser.surname;
       foundUser.email = req.body.email ?? foundUser.email;
       foundUser.password = req.body.password ?? foundUser.password;
+      foundUser.profileImage = req.file.filename ?? foundUser.profileImage;
 
     await foundUser.save();
 
