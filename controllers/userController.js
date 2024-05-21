@@ -26,6 +26,7 @@ async function findUser(req, res) {
 async function createUser(req, res) {
   try {
     const newUser = await User.create({
+      userName: req.body.userName,
       name: req.body.name,
       surname: req.body.surname,
       email: req.body.email,
@@ -44,6 +45,7 @@ async function editUser(req, res) {
     const foundUser = await User.findById(req.params.id);
 
     if(id === foundUser.id) {
+      foundUser.userName = req.body.userName ?? foundUser.userName;
       foundUser.name = req.body.name ?? foundUser.name;
       foundUser.surname = req.body.surname ?? foundUser.surname;
       foundUser.email = req.body.email ?? foundUser.email;

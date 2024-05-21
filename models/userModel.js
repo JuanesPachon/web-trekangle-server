@@ -2,6 +2,7 @@ import mongoose from "../config/mongoose.config.js";
 import bcrypt from "bcryptjs";
 
 const userSchema = mongoose.Schema({
+  userName: {type: String},
   name: {type: String},
   surname: {type: String},
   email: {type: String},
