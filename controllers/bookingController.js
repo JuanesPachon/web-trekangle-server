@@ -64,6 +64,7 @@ async function createBooking(req, res) {
           price: req.body.price,
           user: userId,
           experience: req.body.experience,
+          bookingDate: req.body.bookingDate,
         });
         res.json(newBooking);
       } else {
@@ -89,9 +90,10 @@ async function editBooking(req, res) {
       const foundBooking = await Booking.findById(req.params.id);
 
       if (foundBooking.user[0].toString() === idUser) {
-        foundBooking.name = req.body.name || req.body.name;
-        foundBooking.place = req.body.place || req.body.place;
-        foundBooking.price = req.body.price || req.body.price;
+        foundBooking.name = req.body.name || foundBooking.name;
+        foundBooking.place = req.body.place || foundBooking.place;
+        foundBooking.price = req.body.price || foundBooking.price;
+        foundBooking.bookingDate = req.body.date || foundBooking.bookingDate;
 
         await foundBooking.save();
 

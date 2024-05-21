@@ -6,6 +6,7 @@ import "dotenv/config";
 async function createAdmin(req, res) {
   try {
     const newAdmin = await Admin.create({
+      adminName: req.body.adminName,
       name: req.body.name,
       surname: req.body.surname,
       email: req.body.email,
@@ -24,6 +25,7 @@ async function editAdmin(req, res) {
     const foundAdmin = await Admin.findById(req.params.id);
 
     if (id === foundAdmin.id) {
+      foundAdmin.adminName = req.file.adminName ?? foundAdmin.adminName;
       foundAdmin.name = req.body.name ?? foundAdmin.name;
       foundAdmin.surname = req.body.surname ?? foundAdmin.surname;
       foundAdmin.email = req.body.email ?? foundAdmin.email;

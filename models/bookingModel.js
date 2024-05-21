@@ -23,7 +23,9 @@ const bookingSchema = mongoose.Schema({
             type: mongoose.Types.ObjectId,
             ref: "PayMethod",
         }
-    ]
+    ],
+
+    bookingDate: { type: Date},
 });
 
 const booking = mongoose.model("Booking", bookingSchema)
