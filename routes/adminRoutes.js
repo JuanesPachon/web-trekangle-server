@@ -4,7 +4,7 @@ import { expressjwt } from "express-jwt";
 import "dotenv/config";
 import upload from "../config/multer.config.js";
 import adminValidations from "../middlewares/validateAdmin.js";
-import errorIsEmpty from "../middlewares/errorIsEmpty.js";
+import errorIsEmpty from "../middlewares/errorsIsEmpty.js";
 
 const router = express.Router();
 

@@ -1,3 +1,4 @@
+import reviewHandler from "../utils/errorHandler.js";
 import Review from "../models/reviewModel.js";
 import User from "../models/userModel.js";
 import Admin from "../models/adminModel.js";
@@ -9,7 +10,7 @@ async function listReview(req, res) {
       .populate("experience");
     res.json(reviewList);
   } catch (error) {
-    res.status(500).json("The server had an error");
+    reviewHandler.handleServerError(res);
   }
 }
 
@@ -23,17 +24,20 @@ async function createReview(req, res) {
     });
     res.json(newReview);
   } catch (error) {
-    res.status(500).json("the server had an error");
+    reviewHandler.handleServerError(res);
   }
 }
 
 async function findReview(req, res) {
   try {
     const foundReview = await Review.findById(req.params.id);
+    if (!foundReview) {
+      reviewHandler.handleNotFoundError(res, "Review");
+      return;
+    }
     res.json(foundReview);
   } catch (error) {
-    res.status(500).json(error.message);
-    console.log(error);
+    reviewHandler.handleServerError(res);
   }
 }
 
@@ -57,10 +61,9 @@ async function editReview(req, res) {
 
         res.json(foundReview);
       } else {
-        res.json("this is not your review, check again");
+        res.status(403).json("this is not your review, check again");
       }
-    }
-    if (idAdmin !== null) {
+    } else if (idAdmin !== null) {
       foundReview.user = req.body.user ?? foundReview.user;
       foundReview.experience = req.body.experience ?? foundReview.experience;
       foundReview.comment = req.body.comment ?? foundReview.comment;
@@ -69,9 +72,11 @@ async function editReview(req, res) {
       await foundReview.save();
 
       res.json(foundReview);
+    } else {
+      reviewHandler.handleNotFoundError(res, "User or Admin");
     }
   } catch (error) {
-    res.status(500).json("The server had an error");
+    reviewHandler.handleServerError(res);
   }
 }
 
@@ -83,20 +88,24 @@ async function deleteReview(req, res) {
     const admin = await Admin.findById(userId);
     const idAdmin = admin ? admin.id : null;
     const foundReview = await Review.findById(req.params.id);
+    if (!foundReview) {
+      reviewHandler.handleNotFoundError(res, "Review");
+      return;
+    }
     if (idUser !== null) {
       if (userId === foundReview.user[0].toString()) {
         const deleteReview = await Review.findByIdAndDelete(req.params.id);
         res.json("The review was deleted");
       } else {
-        res.json("you cannot delete this review, check again");
+        res.status(403).json("you cannot delete this review, check again");
       }
     }
     if (idAdmin !== null) {
-      const deleteReview = await Review.findByIdAndDelete(req.params.id);
+      await Review.findByIdAndDelete(req.params.id);
       res.json("The review was deleted");
     }
   } catch (error) {
-    res.status(500).json("The server had an error");
+    reviewHandler.handleServerError(res);
   }
 }
 

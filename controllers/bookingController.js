@@ -1,6 +1,7 @@
 import Booking from "../models/bookingModel.js";
 import User from "../models/userModel.js";
 import Admin from "../models/adminModel.js";
+import bookingHandler from "../utils/errorHandler.js";
 
 async function listBooking(req, res) {
   try {
@@ -22,9 +23,11 @@ async function listBooking(req, res) {
         .populate("user")
         .populate("experience");
       res.json(bookingList);
+    } else {
+      bookingHandler.handleNotFoundError(res, "User or Admin");
     }
   } catch (error) {
-    res.status(500).json("The Server had an error");
+    bookingHandler.handleServerError(res);
   }
 }
 
@@ -35,18 +38,22 @@ async function findBooking(req, res) {
     const idUser = user ? user.id : null;
     const foundBooking = await Booking.findById(req.params.id);
 
+    if (!foundBooking) {
+      handleNotFoundError(res, "Booking");
+      return;
+    }
+
     if (idUser !== null) {
       if (idUser === foundBooking.user[0].toString()) {
         res.json(foundBooking);
       } else {
-        res.json("This is not your booking, check again");
+        bookingHandler.handleAuthError(res, "This is not your booking, check again");
       }
     } else {
-      res.json("That booking doesn't exist, check again");
+      bookingHandler.handleNotFoundError(res, "Booking");
     }
   } catch (error) {
-    res.status(500).json(error.message);
-    console.log(error);
+    bookingHandler.handleServerError(res);
   }
 }
 
@@ -54,10 +61,10 @@ async function createBooking(req, res) {
   try {
     const userId = req.auth.sub;
     const { id: idUser } = await User.findById(userId);
-    const userBookingId = req.body.user
+    const userBookingId = req.body.user;
 
     if (idUser !== null) {
-      if (idUser === userBookingId){
+      if (idUser === userBookingId) {
         const newBooking = await Booking.create({
           name: req.body.name,
           place: req.body.place,
@@ -68,13 +75,13 @@ async function createBooking(req, res) {
         });
         res.json(newBooking);
       } else {
-        res.json("You're not owner of the booking")
+        bookingHandler.handleAuthError(res, "You're not owner of the booking");
       }
     } else {
-      res.json("You're user is not valid")
+      bookingHandler.handleAuthError(res, "Your user is not valid");
     }
   } catch (error) {
-    res.status(500).json("The server had an error");
+    bookingHandler.handleServerError(res);
   }
 }
 
@@ -89,6 +96,11 @@ async function editBooking(req, res) {
     if (idUser !== null) {
       const foundBooking = await Booking.findById(req.params.id);
 
+      if (!foundBooking) {
+        bookingHandler.handleNotFoundError(res, "Booking");
+        return;
+      }
+
       if (foundBooking.user[0].toString() === idUser) {
         foundBooking.name = req.body.name || foundBooking.name;
         foundBooking.place = req.body.place || foundBooking.place;
@@ -99,11 +111,16 @@ async function editBooking(req, res) {
 
         res.json(foundBooking);
       } else {
-        res.json("This is not your booking, check again");
+        bookingHandler.handleAuthError(res, "This is not your booking, check again");
       }
     }
     if (idAdmin !== null) {
       const foundBooking = await User.findById(req, params.id);
+
+      if (!foundBooking) {
+        bookingHandler.handleNotFoundError(res, "Booking");
+        return;
+      }
 
       foundBooking.name = req.body.name || req.body.name;
       foundBooking.place = req.body.place || req.body.place;
@@ -114,7 +131,7 @@ async function editBooking(req, res) {
       res.json(foundBooking);
     }
   } catch (error) {
-    res.status(500).json("The server had an error");
+    bookingHandler.handleServerError(res);
   }
 }
 
@@ -127,20 +144,26 @@ async function deleteBooking(req, res) {
     const idAdmin = admin ? admin.id : null;
 
     if (idUser !== null) {
-      const FoundBooking = await Booking.findById(req.params.id);
-      if (FoundBooking.user[0].toString() === idUser) {
-        const deleteBooking = await Booking.findByIdAndDelete(req.params.id);
+      const foundBooking = await Booking.findById(req.params.id);
+
+      if (!foundBooking) {
+        bookingHandler.handleNotFoundError(res, "Booking");
+        return;
+      }
+
+      if (foundBooking.user[0].toString() === idUser) {
+        await Booking.findByIdAndDelete(req.params.id);
         res.json("The booking was deleted");
       } else {
-        res.json("The booking is not yours, check again");
+        bookingHandler.handleAuthError(res, "The booking is not yours, check again");
       }
     }
     if (idAdmin !== null) {
-      const deleteBooking = await Booking.findByIdAndDelete(req.params.id);
+      await Booking.findByIdAndDelete(req.params.id);
       res.json("The booking was deleted");
     }
   } catch (error) {
-    res.status(500).json(console.log(error));
+    bookingHandler.handleServerError(res);
   }
 }
 

@@ -8,7 +8,7 @@ const ValidateReview = [
  
     check("price")
     .notEmpty()
-    .isNumber()
+    .isNumeric()
     .withMessage("it requires a number"),
 ];
 
