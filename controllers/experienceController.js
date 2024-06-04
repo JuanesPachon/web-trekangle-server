@@ -3,8 +3,21 @@ import Experience from "../models/experienceModel.js";
 
 async function listExperience(req, res) {
   try {
-    const userexperience = await Experience.find();
-    res.json(userexperience);
+    const page = parseInt(req.query.page) || 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : null;
+    const skip = (page - 1) * limit;
+
+    const totalDocuments = await Experience.countDocuments();
+    const totalPages = Math.ceil(totalDocuments / limit);
+
+    const userexperience = await Experience.find().skip(skip).limit(limit);
+
+    res.json({
+      currentPage: page,
+      totalPages: totalPages,
+      totalDocuments: totalDocuments,
+      data: userexperience,
+    });
   } catch (error) {
     experienceHandler.handleServerError(res);
   }
