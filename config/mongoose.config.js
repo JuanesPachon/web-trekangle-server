@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
+import "dotenv/config";
 
-mongoose.connect("mongodb://localhost:27017/trekangleDB"); // connection string
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING); // connection string
 
 export default mongoose;
