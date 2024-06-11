@@ -27,6 +27,7 @@ async function createpayMethod(req, res) {
   try {
     const newpayMethod = await PayMethod.create({
       name: req.body.name,
+      name: req.body.cardNumber,
     });
     res.json(newpayMethod);
   } catch (error) {
@@ -41,7 +42,7 @@ async function editpayMethod(req, res) {
       payMethodHandler.handleNotFoundError(res, "Pay Method");
       return;
     }
-
+    foundpayMethod.name = req.body.cardNumber || foundpayMethod.cardNumber;
     foundpayMethod.name = req.body.name || foundpayMethod.name;
 
     await foundpayMethod.save();

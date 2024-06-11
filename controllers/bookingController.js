@@ -66,8 +66,6 @@ async function createBooking(req, res) {
     if (idUser !== null) {
       if (idUser === userBookingId) {
         const newBooking = await Booking.create({
-          name: req.body.name,
-          place: req.body.place,
           price: req.body.price,
           user: userId,
           experience: req.body.experience,
@@ -102,8 +100,6 @@ async function editBooking(req, res) {
       }
 
       if (foundBooking.user[0].toString() === idUser) {
-        foundBooking.name = req.body.name || foundBooking.name;
-        foundBooking.place = req.body.place || foundBooking.place;
         foundBooking.price = req.body.price || foundBooking.price;
         foundBooking.bookingDate = req.body.date || foundBooking.bookingDate;
 

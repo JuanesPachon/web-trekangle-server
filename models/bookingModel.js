@@ -3,8 +3,6 @@ import payMethod from "./payMethodModel.js";
 
 
 const bookingSchema = mongoose.Schema({
-    name: {type: String},
-    place: {type: String},
     price: {type: Number},
     user: [
         {
