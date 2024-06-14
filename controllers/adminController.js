@@ -89,7 +89,7 @@ async function loginAdmin(req, res) {
     const admin = await Admin.findOne({ email: req.body.email });
 
     if (!admin) {
-      handleAuthError(res);
+      adminHandler.handleAuthError(res);
       return;
     }
 

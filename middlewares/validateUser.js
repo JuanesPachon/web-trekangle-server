@@ -18,8 +18,8 @@ const userValidations = [
   check("name")
     .notEmpty()
     .withMessage("Name's required")
-    .isLength({ min: 5, max: 10 })
-    .withMessage("Name's length is min 5 and max 10")
+    .isLength({ min: 5 })
+    .withMessage("Name's length is min 5")
     .isAlpha()
     .withMessage("You cannot type numbers"),
 
@@ -35,7 +35,7 @@ const userValidations = [
     .isLength({ min: 5, max: 10 })
     .withMessage("Password's length has to be min 5 and max 10 characters"),
 
-  check("profileImage").custom((value, { req }) => {
+/*   check("profileImage").custom((value, { req }) => {
     const filetypes = /jpeg|jpg|png|/;
     const mimetype = filetypes.test(req.file.mimetype);
     const extname = filetypes.test(
@@ -45,7 +45,7 @@ const userValidations = [
     if (!mimetype || !extname) {
       throw new Error("The file is not a valid Image");
     }
-  }),
+  }), */
 ];
 
 export default userValidations;

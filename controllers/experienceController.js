@@ -7,16 +7,16 @@ async function listExperience(req, res) {
     const limit = req.query.limit ? parseInt(req.query.limit) : null;
     const skip = (page - 1) * limit;
 
-    const totalDocuments = await Experience.countDocuments();
-    const totalPages = Math.ceil(totalDocuments / limit);
+    const totalExperiences = await Experience.countDocuments();
+    const totalPages = Math.ceil(totalExperiences / limit);
 
-    const userexperience = await Experience.find().skip(skip).limit(limit);
+    const userExperience = await Experience.find().skip(skip).limit(limit);
 
     res.json({
       currentPage: page,
       totalPages: totalPages,
-      totalDocuments: totalDocuments,
-      data: userexperience,
+      totalExperiences: totalExperiences,
+      experiences: userExperience,
     });
   } catch (error) {
     experienceHandler.handleServerError(res);
@@ -39,12 +39,19 @@ async function findExperience(req, res) {
 
 async function createExperience(req, res) {
   try {
+
+    let images = [];
+    
+    if (req.files && req.files.length > 0) {
+      images = req.files.map(file => file.filename);
+    }
+
     const newExperience = await Experience.create({
       name: req.body.name,
       place: req.body.place,
       price: req.body.price,
       description: req.body.description,
-      images: req.file.filename,
+      images: images,
     });
     res.json(newExperience);
   } catch (error) {
@@ -64,7 +71,12 @@ async function editExperience(req, res) {
     foundexperience.name = req.body.name ?? foundexperience.name;
     foundexperience.place = req.body.place ?? foundexperience.place;
     foundexperience.price = req.body.price ?? foundexperience.price;
-    foundexperience.images = req.files.filename ?? foundexperience.images;
+
+    if (req.files && req.files.length > 0) {
+      foundexperience.images = req.files.map(file => file.filename);
+    } else {
+      foundexperience.images = req.body.images ?? foundexperience.images;
+    }
 
     await foundexperience.save();
     res.json(foundexperience);

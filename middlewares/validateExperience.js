@@ -7,7 +7,6 @@ const ValidateExperience = [
 
     check("place")
     .notEmpty()
-    .isAlpha()
     .withMessage("it doesn't require numbers"),
 
     check("price")
@@ -17,20 +16,17 @@ const ValidateExperience = [
 
     check("description")
     .notEmpty()
-    .isLength({min:5, max:280})
-    .withMessage("Description's length has to be min 5 and max 280 characters"),
+    .isLength({min:5})
+    .withMessage("Description's length has to be min 5 characters"),
 
     check ("Images").custom((value, {req}) =>{
-        const fyletipes = /jpeg|jpg|png|/;
-        const mimetype = fyletipes.test(req.file.mimetype);
-        const extname = fyletipes.test(
-            req.file.originalmete.split(".").pop().toLoweCase()
-        );
+        const fyletipes = /jpeg|jpg|png|webp| /;
+        const mimetype = fyletipes.test(req.files.mimetype);
 
-    if (!mimetype || !extname){
-            throw new Error ("the file is not a valid Image");
+    if (!mimetype){
+        throw new Error ("the file is not a valid Image");
     }
-}),
+    })
 ];
 
 export default ValidateExperience;

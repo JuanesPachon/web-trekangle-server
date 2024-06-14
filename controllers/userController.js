@@ -41,7 +41,6 @@ async function createUser(req, res) {
       surname: req.body.surname,
       email: req.body.email,
       password: req.body.password,
-      profileImage: req.file.filename,
     });
     res.json(newUser);
   } catch (error) {

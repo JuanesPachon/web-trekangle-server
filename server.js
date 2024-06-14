@@ -14,7 +14,10 @@ const port = process.env.PORT
 
 const app = express();
 
+app.disable("x-powered-by");
+
 app.use(cors());
+app.use(express.static(path.join(path.dirname(import.meta.filename), './public')));
 app.use(express.json());
 
 const uploadDir = path.join(import.meta.dirname, 'public/uploads');
