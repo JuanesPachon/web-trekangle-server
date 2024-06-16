@@ -60,26 +60,22 @@ async function findBooking(req, res) {
 async function createBooking(req, res) {
   try {
     const userId = req.auth.sub;
-    const { id: idUser } = await User.findById(userId);
-    const userBookingId = req.body.user;
-
-    if (idUser !== null) {
-      if (idUser === userBookingId) {
+    if (userId !== null) {
         const newBooking = await Booking.create({
           price: req.body.price,
           user: userId,
-          experience: req.body.experience,
+          experiences: req.body.experiences,
           bookingDate: req.body.bookingDate,
+          name: req.body.name,
+          cardNumber: req.body.cardNumber,
         });
         res.json(newBooking);
-      } else {
-        bookingHandler.handleAuthError(res, "You're not owner of the booking");
-      }
     } else {
       bookingHandler.handleAuthError(res, "Your user is not valid");
     }
   } catch (error) {
     bookingHandler.handleServerError(res);
+    console.log(error);
   }
 }
 

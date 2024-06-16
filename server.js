@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
@@ -6,7 +7,6 @@ import experienceRoutes from "./routes/experienceRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import payMethodRoutes from "./routes/payMethodRoutes.js";
-import "dotenv/config";
 import path from "path";
 import fs from "fs";
 

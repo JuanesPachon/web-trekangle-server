@@ -1,5 +1,4 @@
 import mongoose from "../config/mongoose.config.js";
-import payMethod from "./payMethodModel.js";
 
 
 const bookingSchema = mongoose.Schema({
@@ -10,18 +9,17 @@ const bookingSchema = mongoose.Schema({
             ref: "User",
         }
     ],
-    experience:  [
+    experiences:  [
         {
-            type: mongoose.Types.ObjectId,
-            ref: "Experience",
+            experienceId: {
+                type: mongoose.Types.ObjectId,
+                ref: "Experience",
+            },
+            quantity: Number,
         }
     ],
-    payMethod: [
-        {
-            type: mongoose.Types.ObjectId,
-            ref: "PayMethod",
-        }
-    ],
+    name: {type: String},
+    cardNumber: {type: Number},
 
     bookingDate: { type: Date},
 });

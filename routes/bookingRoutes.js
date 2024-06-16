@@ -1,7 +1,6 @@
 import bookingController from "../controllers/bookingController.js";
 import express from "express";
 import { expressjwt } from "express-jwt";
-import "dotenv/config";
 
 const router = express.Router();
 
