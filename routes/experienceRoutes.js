@@ -8,8 +8,8 @@ import errorsIsEmpty from "../middlewares/errorsIsEmpty.js"
 
 const router = express.Router();
 
-router.get("/experiences", experienceController.listExperience); // ver
-router.get("/experiences/:id", experienceController.findExperience); // encontrar
+router.get("/experiences", experienceController.listExperience);
+router.get("/experiences/:id", experienceController.findExperience);
 router.post("/experiences",upload.array("images", 4), ValidateExperience, errorsIsEmpty,expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),experienceController.createExperience); // crear
 router.patch("/experiences/:id", upload.array("images", 4), ValidateExperience , errorsIsEmpty, expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),experienceController.editExperience); // editar
 router.delete("/experiences/:id", expressjwt({algorithms: ["HS256"], secret: process.env.JWT_KEY}),experienceController.deleteExperience); // eliminar

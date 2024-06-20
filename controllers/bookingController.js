@@ -2,6 +2,7 @@ import Booking from "../models/bookingModel.js";
 import User from "../models/userModel.js";
 import Admin from "../models/adminModel.js";
 import bookingHandler from "../utils/errorHandler.js";
+import moment from "moment";
 
 async function listBooking(req, res) {
   try {
@@ -12,22 +13,20 @@ async function listBooking(req, res) {
     const admin = await Admin.findById(userId);
     const idAdmin = admin ? admin.id : null;
 
+    let bookingList = [];
+
     if (idUser !== null) {
-      const bookingList = await Booking.find({ user: idUser })
-        .populate("user")
-        .populate("experience");
-      res.json(bookingList);
-    }
-    if (idAdmin !== null) {
-      const bookingList = await Booking.find()
-        .populate("user")
-        .populate("experience");
-      res.json(bookingList);
+      bookingList = await Booking.find({ user: idUser }).populate("user experiences.experienceId");
+    } else if (idAdmin !== null) {
+      bookingList = await Booking.find().populate("user").populate("experience");
     } else {
-      bookingHandler.handleNotFoundError(res, "User or Admin");
+      return bookingHandler.handleNotFoundError(res, "User or Admin");
     }
+
+    res.json(bookingList);
   } catch (error) {
     bookingHandler.handleServerError(res);
+    console.log(error);
   }
 }
 
@@ -61,6 +60,7 @@ async function createBooking(req, res) {
   try {
     const userId = req.auth.sub;
     if (userId !== null) {
+      const expiryDate = moment().add(20, 'days').toDate();
         const newBooking = await Booking.create({
           price: req.body.price,
           user: userId,
@@ -68,6 +68,7 @@ async function createBooking(req, res) {
           bookingDate: req.body.bookingDate,
           name: req.body.name,
           cardNumber: req.body.cardNumber,
+          expiryDate: expiryDate,
         });
         res.json(newBooking);
     } else {

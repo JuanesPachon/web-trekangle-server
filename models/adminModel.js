@@ -4,7 +4,6 @@ import bcrypt from "bcryptjs";
 const adminSchema = mongoose.Schema({
   adminName: {type: String},
   name: { type: String },
-  surname: { type: String },
   email: { type: String },
   password: { type: String },
   profileImage: { type: String },

@@ -20,10 +20,12 @@ const bookingSchema = mongoose.Schema({
     ],
     name: {type: String},
     cardNumber: {type: Number},
-
-    bookingDate: { type: Date},
+    bookingDate: {type: Date},
+    expiryDate: { type: Date},
 });
 
 const booking = mongoose.model("Booking", bookingSchema)
+
+booking.collection.createIndex({ expiryDate: 1 }, { expireAfterSeconds: 0 });
 
 export default booking 
