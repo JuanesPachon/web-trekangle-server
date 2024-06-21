@@ -10,7 +10,7 @@ async function listExperience(req, res) {
     const totalExperiences = await Experience.countDocuments();
     const totalPages = Math.ceil(totalExperiences / limit);
 
-    const userExperience = await Experience.find().skip(skip).limit(limit);
+    const userExperience = await Experience.find ({deleteAt: null}).skip(skip).limit(limit);
 
     res.json({
       currentPage: page,
@@ -88,7 +88,7 @@ async function editExperience(req, res) {
 
 async function deleteExperience(req, res) {
   try {
-    const foundexperience = await Experience.findByIdAndDelete(req.params.id);
+    const foundexperience = await Experience.findByIdAndUpdate(req.params.id, {deleteAt: Date.now()});
     if (!foundexperience) {
       experienceHandler.handleNotFoundError(res, "Experience");
       return;

@@ -5,7 +5,11 @@ const experienceSchema = mongoose.Schema({
   place: {type: String},
   price: {type: Number},
   description:{type: String},
-  images:[String]
+  images:[String],
+  deleteat:{
+    type: Date,
+    default: null,
+  },
 });
 
 const Experience = mongoose.model("Experience", experienceSchema);
