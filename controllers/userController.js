@@ -6,7 +6,7 @@ import "dotenv/config";
 
 async function listUser(req, res) {
   try {
-    const userList = await User.find().populate();
+    const userList = await User.find({deleteAt: null}).populate();
     res.json(userList);
   } catch (error) {
     userHandler.handleServerError(res);
@@ -92,7 +92,7 @@ async function deleteUser(req, res) {
     }
 
     if (id === foundUser.id) {
-      const deleteUser = await User.findByIdAndDelete(req.params.id);
+      const deleteUser = await User.findByIdAndUpdate(req.params.id, {deleteAt: Date.now()});
       res.json("The user was deleted");
     } else {
       userHandler.handleAuthError(res);

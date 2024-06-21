@@ -73,7 +73,7 @@ async function deleteAdmin(req, res) {
     }
 
     if (id === foundAdmin.id) {
-      await Admin.findByIdAndDelete(req.params.id);
+      await Admin.findByIdAndUpdate(req.params.id, {deleteAt: Date.now()});
       res.json("The Admin was deleted");
     } else {
       adminHandler.handleAuthError(res);

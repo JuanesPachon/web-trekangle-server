@@ -7,6 +7,10 @@ const adminSchema = mongoose.Schema({
   email: { type: String },
   password: { type: String },
   profileImage: { type: String },
+  deleteAt: {
+    type: Date,
+    default: null,
+  },
 });
 
 adminSchema.pre("save", async function () {
