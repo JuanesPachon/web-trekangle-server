@@ -22,6 +22,10 @@ const bookingSchema = mongoose.Schema({
     cardNumber: {type: Number},
     bookingDate: {type: Date},
     expiryDate: { type: Date},
+    deleteAt: {
+        type: Date,
+        default: null,
+    },
 });
 
 const booking = mongoose.model("Booking", bookingSchema)

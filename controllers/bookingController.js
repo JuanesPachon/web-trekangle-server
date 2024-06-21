@@ -16,9 +16,9 @@ async function listBooking(req, res) {
     let bookingList = [];
 
     if (idUser !== null) {
-      bookingList = await Booking.find({ user: idUser }).populate("user experiences.experienceId");
+      bookingList = await Booking.find({ user: idUser, deleteAt: null }).populate("user experiences.experienceId");
     } else if (idAdmin !== null) {
-      bookingList = await Booking.find().populate("user").populate("experience");
+      bookingList = await Booking.find().populate("user experience.experienceId")
     } else {
       return bookingHandler.handleNotFoundError(res, "User or Admin");
     }
@@ -145,14 +145,14 @@ async function deleteBooking(req, res) {
       }
 
       if (foundBooking.user[0].toString() === idUser) {
-        await Booking.findByIdAndDelete(req.params.id);
+        await Booking.findByIdAndUpdate(req.params.id, {deleteAt: Date.now()});
         res.json("The booking was deleted");
       } else {
         bookingHandler.handleAuthError(res, "The booking is not yours, check again");
       }
     }
     if (idAdmin !== null) {
-      await Booking.findByIdAndDelete(req.params.id);
+      await Booking.findByIdAndUpdate(req.params.id, {deleteAt: Date.now()});
       res.json("The booking was deleted");
     }
   } catch (error) {
