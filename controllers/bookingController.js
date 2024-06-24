@@ -18,7 +18,7 @@ async function listBooking(req, res) {
     if (idUser !== null) {
       bookingList = await Booking.find({ user: idUser, deleteAt: null }).populate("user experiences.experienceId");
     } else if (idAdmin !== null) {
-      bookingList = await Booking.find().populate("user experience.experienceId")
+      bookingList = await Booking.find({ deleteAt: null }).populate("user experiences.experienceId")
     } else {
       return bookingHandler.handleNotFoundError(res, "User or Admin");
     }

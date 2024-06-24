@@ -6,7 +6,7 @@ const experienceSchema = mongoose.Schema({
   price: {type: Number},
   description:{type: String},
   images:[String],
-  deleteat:{
+  deleteAt:{
     type: Date,
     default: null,
   },

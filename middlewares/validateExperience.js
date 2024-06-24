@@ -19,14 +19,14 @@ const ValidateExperience = [
     .isLength({min:5})
     .withMessage("Description's length has to be min 5 characters"),
 
-    check ("Images").custom((value, {req}) =>{
+/*     check ("Images").custom((value, {req}) =>{
         const fyletipes = /jpeg|jpg|png|webp| /;
         const mimetype = fyletipes.test(req.files.mimetype);
 
     if (!mimetype){
         throw new Error ("the file is not a valid Image");
     }
-    })
+    }) */
 ];
 
 export default ValidateExperience;
