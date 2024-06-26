@@ -1,34 +1,74 @@
 import { check } from "express-validator";
 
-const ValidateExperience = [
-    check("name")
-    .notEmpty()
-    .withMessage("requieres a name"),
+export const ValidateExperience = [
+  check("name").notEmpty().withMessage("requieres a name"),
 
-    check("place")
+  check("place").notEmpty().withMessage("it doesn't require numbers"),
+
+  check("price").notEmpty().isNumeric().withMessage("it requires a number"),
+
+  check("images").custom((value, { req }) => {
+    const filetypes = /jpeg|jpg|png|webp/;
+    let isValid = true;
+  
+    if (!req.files) {
+      throw new Error("No files uploaded");
+    }
+  
+    req.files.forEach(file => {
+      const mimetype = filetypes.test(file.mimetype);
+      if (!mimetype) {
+        isValid = false;
+      }
+    });
+  
+    if (!isValid) {
+      throw new Error("One or more files are not valid images");
+    }
+  
+    return true;
+  }),
+];
+
+export const ValidateEditExperience = [
+  check("name").optional().notEmpty().withMessage("requieres a name"),
+
+  check("place")
+    .optional()
     .notEmpty()
     .withMessage("it doesn't require numbers"),
 
-    check("price")
+  check("price")
+    .optional()
     .notEmpty()
     .isNumeric()
     .withMessage("it requires a number"),
 
-    check("description")
+  check("description")
+    .optional()
     .notEmpty()
-    .isLength({min:5})
+    .isLength({ min: 5 })
     .withMessage("Description's length has to be min 5 characters"),
 
-/*     check ("Images").custom((value, {req}) =>{
-        const fyletipes = /jpeg|jpg|png|webp| /;
-        const mimetype = fyletipes.test(req.files.mimetype);
+  check("images").optional().custom((value, { req }) => {
+    const filetypes = /jpeg|jpg|png|webp/;
+    let isValid = true;
 
-    if (!mimetype){
-        throw new Error ("the file is not a valid Image");
+    if (!req.files) {
+      throw new Error("No files uploaded");
     }
-    }) */
+
+    req.files.forEach((file) => {
+      const mimetype = filetypes.test(file.mimetype);
+      if (!mimetype) {
+        isValid = false;
+      }
+    });
+
+    if (!isValid) {
+      throw new Error("One or more files are not valid images");
+    }
+
+    return true;
+  }),
 ];
-
-export default ValidateExperience;
-
-

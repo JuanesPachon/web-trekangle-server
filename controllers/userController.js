@@ -42,6 +42,7 @@ async function createUser(req, res) {
       surname: req.body.surname,
       email: req.body.email,
       password: req.body.password,
+      profileImage: req.body.profileImage ?? "",
     });
     res.json(newUser);
   } catch (error) {
@@ -69,7 +70,8 @@ async function editUser(req, res) {
       foundUser.name = req.body.name ?? foundUser.name;
       foundUser.surname = req.body.surname ?? foundUser.surname;
       foundUser.email = req.body.email ?? foundUser.email;
-      foundUser.password = req.body.password ?? foundUser.password;
+      foundUser.password = req.body?.password ?? foundUser.password;
+      foundUser.profileImage = req.file?.filename ?? foundUser.profileImage;
 
       await foundUser.save();
 
