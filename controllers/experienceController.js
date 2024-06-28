@@ -71,18 +71,13 @@ async function editExperience(req, res) {
     foundexperience.name = req.body.name ?? foundexperience.name;
     foundexperience.place = req.body.place ?? foundexperience.place;
     foundexperience.price = req.body.price ?? foundexperience.price;
-
-    if (req.files && req.files.length > 0) {
-      foundexperience.images = req.files.map(file => file.filename);
-    } else {
-      foundexperience.images = req.body.images ?? foundexperience.images;
-    }
+    foundexperience.images = req.files.supabaseUrl ?? foundexperience.images;
 
     await foundexperience.save();
     res.json(foundexperience);
   } catch (error) {
-    experienceHandler.handleNotFoundError(res, "Experience");
-    ServerError(res);
+    experienceHandler.handleServerError(res);
+    console.log(error);
   }
 }
 

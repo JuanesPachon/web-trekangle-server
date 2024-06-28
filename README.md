@@ -14,10 +14,10 @@ Este Backend de Trekangle hace parte de el Proyecto Final de el programa de Desa
 ## ⚙ Configuración local
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/JuanesPachon/web-trekangle-client.git
+git clone https://github.com/JuanesPachon/web-trekangle-server.git
 
 # 2. Acceder a la carpeta principal del proyecto
-cd web-trekangle-client
+cd web-trekangle-server
 
 # 3. Instalar las dependencias utilizadas en el proyecto
 npm install
@@ -61,3 +61,4 @@ npm start
 - **JWT (JSON Web Tokens)**: Autenticación y autorización basada en tokens.
 - **Express Validator**: Validación de datos de entrada.
 - **Multer**: Gestión de archivos subidos (como imágenes).
+- **Supabase**: Servidor de base de datos NoSQL para almacenar los archivos subidos.

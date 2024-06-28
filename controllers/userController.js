@@ -71,7 +71,7 @@ async function editUser(req, res) {
       foundUser.surname = req.body.surname ?? foundUser.surname;
       foundUser.email = req.body.email ?? foundUser.email;
       foundUser.password = req.body?.password ?? foundUser.password;
-      foundUser.profileImage = req.file?.filename ?? foundUser.profileImage;
+      foundUser.profileImage = req.file?.supabaseUrl ?? foundUser.profileImage;
 
       await foundUser.save();
 
