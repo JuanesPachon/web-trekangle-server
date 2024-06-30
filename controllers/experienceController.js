@@ -40,18 +40,12 @@ async function findExperience(req, res) {
 async function createExperience(req, res) {
   try {
 
-    let images = [];
-    
-    if (req.files && req.files.length > 0) {
-      images = req.files.map(file => file.filename);
-    }
-
     const newExperience = await Experience.create({
       name: req.body.name,
       place: req.body.place,
       price: req.body.price,
       description: req.body.description,
-      images: images,
+      images: req.files.supabaseUrl,
     });
     res.json(newExperience);
   } catch (error) {
