@@ -8,9 +8,8 @@ import adminRoutes from "./routes/adminRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import payMethodRoutes from "./routes/payMethodRoutes.js";
 import path from "path";
-import fs from "fs";
 
-const port = process.env.PORT
+const port = process.env.PORT || 3000;
 
 const app = express();
 
