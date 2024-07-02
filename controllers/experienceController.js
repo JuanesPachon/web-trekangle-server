@@ -65,7 +65,7 @@ async function editExperience(req, res) {
     foundexperience.name = req.body.name ?? foundexperience.name;
     foundexperience.place = req.body.place ?? foundexperience.place;
     foundexperience.price = req.body.price ?? foundexperience.price;
-    foundexperience.images = req.files.supabaseUrl ?? foundexperience.images;
+    foundexperience.images = req.files?.supabaseUrl ?? foundexperience.images;
 
     await foundexperience.save();
     res.json(foundexperience);

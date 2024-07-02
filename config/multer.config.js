@@ -3,7 +3,6 @@ import { createClient } from "@supabase/supabase-js";
 import "dotenv/config";
 import { decode } from "base64-arraybuffer";
 import path from "path";
-import { log } from "console";
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
@@ -50,11 +49,15 @@ const uploadToSupabase = async (req, res, next) => {
       imagesList.push(filesPath);
     }
 
-    req.files.supabaseUrl = imagesList;
+    if (imagesList.length === 0) {
+      req.files.supabaseUrl = null;
+    } else {
+      req.files.supabaseUrl = imagesList;
+    }
 
     next();
   }
-  if (req.file) {
+  else if (req.file) {
     const { originalname, buffer } = req.file;
     const filePath = `${Date.now()}-${originalname}`;
     const fileBase64 = decode(buffer.toString("base64"));
@@ -73,6 +76,10 @@ const uploadToSupabase = async (req, res, next) => {
     req.file.supabaseUrl = filePath;
 
     next();
+  }
+  
+  else {
+    next()
   }
 };
 
