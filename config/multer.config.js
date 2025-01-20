@@ -63,7 +63,7 @@ const uploadToSupabase = async (req, res, next) => {
     const fileBase64 = decode(buffer.toString("base64"));
 
     const { data, error } = await supabase.storage
-      .from("images-trekangle")
+      .from("trekangle-files")
       .upload(filePath, fileBase64, {
         contentType: "image/" + path.extname(originalname).substring(1),
       });
