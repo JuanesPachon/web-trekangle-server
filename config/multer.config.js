@@ -42,7 +42,7 @@ const uploadToSupabase = async (req, res, next) => {
         });
 
       if (error) {
-        console.error("Error al subir la imagen a Supabase:");
+        console.error("Error al subir la imagen a Supabase:",error);
         return next(new Error("Error al subir la imagen a Supabase."));
       }
 
@@ -63,7 +63,7 @@ const uploadToSupabase = async (req, res, next) => {
     const fileBase64 = decode(buffer.toString("base64"));
 
     const { data, error } = await supabase.storage
-      .from("trekangle-files")
+      .from("images-trekangle")
       .upload(filePath, fileBase64, {
         contentType: "image/" + path.extname(originalname).substring(1),
       });
