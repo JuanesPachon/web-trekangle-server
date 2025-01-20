@@ -42,7 +42,7 @@ const uploadToSupabase = async (req, res, next) => {
         });
 
       if (error) {
-        console.error("Error al subir la imagen a Supabase:");
+        console.error("Error al subir la imagen a Supabase:",error);
         return next(new Error("Error al subir la imagen a Supabase."));
       }
 
